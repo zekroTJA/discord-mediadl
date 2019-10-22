@@ -43,7 +43,7 @@ class Discord:
                 break
             last_msg_id = res[-1]['id']
             all_messages.extend(res)
-            print('Requested {} messages...'.format(len(all_messages)))
+            print('[INFO] Requested {} messages...'.format(len(all_messages)))
 
         return all_messages
 
