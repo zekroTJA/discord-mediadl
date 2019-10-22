@@ -46,3 +46,7 @@ class Discord:
             print('Requested {} messages...'.format(len(all_messages)))
 
         return all_messages
+
+    def get_user(self, user_id):
+        res = self._req('GET', '/users/{}'.format(user_id))
+        return res.json()
