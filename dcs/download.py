@@ -12,7 +12,7 @@ class Download:
         if not path.isdir(loc) and not path.isfile(loc):
             os.makedirs(loc)
 
-    def _download(self, url):
+    def _download(self, url, filename=None):
         if url is None or len(url) == 0:
             return
 
@@ -25,7 +25,8 @@ class Download:
         if mimetype is None or 'text/html' in mimetype:
             return
 
-        filename = url.split('/')[-1].split('?')[0].split('&')[0].split(':')[0]
+        if filename is None:
+            filename = url.split('/')[-1].split('?')[0].split('&')[0].split(':')[0].split('#')[0]
 
         if len(filename) == 0:
             letters = string.ascii_lowercase
@@ -44,7 +45,7 @@ class Download:
         except Exception as e:
             print('[ERR ] faield saving image: {}'.format(e))
 
-    def download_image_from_message(self, msg):
+    def download_image_from_message(self, msg, name=None):
         if msg is None:
             return
 
@@ -57,8 +58,13 @@ class Download:
         if len(attachments) == 0 and len(embeds) == 0:
             return
 
+        i = 0
+
+        def __get_file_name(ind):
+            return '{}-{}'.format(msg.get('id'), ind)
+
         for a in attachments:
-            self._download(a.get('url'))
+            self._download(a.get('url'), filename=__get_file_name(i))
 
         for e in embeds:
-            self._download(e.get('url'))
+            self._download(e.get('url'), filename=__get_file_name(i))
