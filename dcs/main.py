@@ -1,12 +1,17 @@
+#!/usr/bin/env python3
+
 import args
 import discord
 import download
 import analyze
+from os import environ
 
 
 def main():
     argv = args.get_parsed_args()
-    dc = discord.Discord(argv.token)
+    token = environ.get("DISCORD_API_TOKEN", argv.token)
+
+    dc = discord.Discord(token)
 
     res = dc.get_all_channel_messages(argv.channel)
 
