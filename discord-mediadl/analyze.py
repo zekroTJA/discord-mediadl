@@ -19,7 +19,7 @@ def get_attachment_count(msg):
     return c
 
 
-def analyze(msgs, chart=False):
+def analyze(msgs, chart, chart_size):
     msgs_map = {}
     user_map = {}
 
@@ -58,13 +58,16 @@ def analyze(msgs, chart=False):
         labels = [parse_uid(n[0]) for n in sorted_data]
         data = [n[1] for n in sorted_data]
         ypos = [n for n in range(len(labels))]
-        fig, ax = plt.subplots(figsize=(16, 8))
+        print(chart_size)
+        fig, ax = plt.subplots(figsize=chart_size)
         ax.barh(ypos, data, align='center')
         ax.set_yticks(ypos)
         ax.set_yticklabels(labels)
         ax.invert_yaxis()
+        ax.set_xlabel('Attachments')
+        ax.set_title('Message Attachments per User')
         # ax.pie(
         #     data, labels=labels, autopct='%1.1f%%',
         #     shadow=True, startangle=90, )
         # ax.axis('equal')
-        plt.savefig('out.png')
+        plt.savefig('analysis_plot.png')

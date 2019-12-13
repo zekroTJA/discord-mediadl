@@ -16,7 +16,8 @@ def main():
     res = dc.get_all_channel_messages(argv.channel)
 
     if argv.analyze:
-        analyze.analyze(res, chart=True)
+        plot_size = tuple([int(n) for n in argv.plot_size.split(',')])
+        analyze.analyze(res, argv.plot, plot_size)
         return
 
     dl = download.Download(argv.output)
